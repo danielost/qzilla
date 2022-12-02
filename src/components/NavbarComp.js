@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Routes, Route, Link } from "react-router-dom";
+import Home from "./Home";
+import Queues from "./Queues";
 
 const NavbarComp = () => {
   return (
@@ -25,12 +27,14 @@ const NavbarComp = () => {
       </Navbar>
 
       <Routes>
-        <Route path="/" element={<></>} />
-        <Route path="/queues" element={<></>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/queues" element={<Queues />} />
         <Route
           path="*"
           element={
-            <h3 style={{ textAlign: "center", margin: "200px" }}>Error 404. No page found</h3>
+            <h3 style={{ textAlign: "center", margin: "200px" }}>
+              Error 404. No page found
+            </h3>
           }
         />
       </Routes>

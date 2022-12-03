@@ -75,7 +75,9 @@ const Queues = () => {
       peopleAmount: queue.peopleAmount + 1,
     };
 
-    const index = queues.findIndex((currQueue) => queue.name === currQueue.name);
+    const index = queues.findIndex(
+      (currQueue) => queue.name === currQueue.name
+    );
     let newQueues = queues;
     newQueues[index] = newQueue;
     setQueues(newQueues);
@@ -99,7 +101,11 @@ const Queues = () => {
           <Modal.Title>Creating a new queue</Modal.Title>
         </Modal.Header>
         <form onSubmit={handleAddFormSubmit}>
-          <Modal.Body>
+          <Modal.Body
+            style={{
+              textAlign: "center",
+            }}
+          >
             <InputGroup className="mb-3">
               <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
               <Form.Control
@@ -115,7 +121,18 @@ const Queues = () => {
               name="eventDate"
               defaultValue={new Date()}
             />
-            {message !== "" ? <label>{message}</label> : <Fragment />}
+            {message !== "" ? (
+              <label
+                style={{
+                  marginTop: "15px",
+                  color: "red",
+                }}
+              >
+                {message}
+              </label>
+            ) : (
+              <Fragment />
+            )}
           </Modal.Body>
           <Modal.Footer>
             <Button
@@ -193,7 +210,11 @@ const Queues = () => {
           </thead>
           <tbody>
             {queues.map((queue) => {
-              if (queue.name.toLocaleLowerCase().indexOf(search.toLocaleLowerCase()) !== -1) {
+              if (
+                queue.name
+                  .toLocaleLowerCase()
+                  .indexOf(search.toLocaleLowerCase()) !== -1
+              ) {
                 return (
                   <tr>
                     <td>{queue.name}</td>

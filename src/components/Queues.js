@@ -23,6 +23,7 @@ const Queues = () => {
   });
 
   const handleAddFormChange = (event) => {
+    setMessage("");
     event.preventDefault();
 
     const fieldName = event.target.getAttribute("name");
@@ -35,6 +36,7 @@ const Queues = () => {
   };
 
   const handleAddFormSubmit = (event) => {
+    setMessage("");
     event.preventDefault();
 
     const newQueue = {
@@ -44,14 +46,42 @@ const Queues = () => {
       peopleAmount: 0,
     };
 
-    console.log(newQueue);
+    if (newQueue.name === "") {
+      setMessage("Name can't be empty");
+    } else if (newQueue.name.length < 3 || newQueue.name.length > 20) {
+      setMessage("Name length must be between 3 and 20 symbols");
+    } else if (newQueue.eventDate == null || newQueue.eventDate == "") {
+      setMessage("Date can't be empty");
+    } else if (new Date() >= newQueue.eventDate) {
+      setMessage("You can't choose the date in the past");
+    } else {
+      const newQueues = [...queues, newQueue];
+      setQueues(newQueues);
+      setShowModal(false);
+      setMessage(
+        <span>
+          Queue <b>{addFormData.name}</b> succesfully created!
+        </span>
+      );
+      setShowToast(true);
+    }
+  };
 
-    const newQueues = [...queues, newQueue];
+  const handleEnrollClick = (queue) => {
+    const newQueue = {
+      name: queue.name,
+      dateCreated: queue.dateCreated,
+      eventDate: queue.eventDate,
+      peopleAmount: queue.peopleAmount + 1,
+    };
+
+    const index = queues.findIndex((currQueue) => queue.name == currQueue.name);
+    let newQueues = queues;
+    newQueues[index] = newQueue;
     setQueues(newQueues);
-    setShowModal(false);
     setMessage(
       <span>
-        Queue <b>{addFormData.name}</b> succesfully created!
+        Enrolled to queue <b>{queue.name}</b>
       </span>
     );
     setShowToast(true);
@@ -83,7 +113,9 @@ const Queues = () => {
               placeholder="Date"
               type="date"
               name="eventDate"
+              defaultValue={new Date()}
             />
+            {message !== "" ? <label>{message}</label> : <Fragment />}
           </Modal.Body>
           <Modal.Footer>
             <Button
@@ -136,6 +168,7 @@ const Queues = () => {
           <Button
             variant="primary"
             onClick={() => {
+              setMessage("");
               setShowModal(true);
             }}
           >
@@ -164,7 +197,14 @@ const Queues = () => {
                   <td>{queue.eventDate}</td>
                   <td>{queue.peopleAmount}</td>
                   <td>
-                    <Button variant="primary">Enroll</Button>
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        handleEnrollClick(queue);
+                      }}
+                    >
+                      Enroll
+                    </Button>
                   </td>
                 </tr>
               );

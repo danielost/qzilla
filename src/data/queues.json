@@ -3,42 +3,42 @@
     "name": "Azure Lab 3",
     "dateCreated": "2022/11/25",
     "eventDate": "2022-11-25",
-    "peopleAmount": 33,
+    "peopleAmount": 8,
     "enrolled": false
   },
   {
     "name": "Azure Lab 4",
     "dateCreated": "2022/11/25",
     "eventDate": "2022-11-25",
-    "peopleAmount": 33,
+    "peopleAmount": 9,
     "enrolled": false
   },
   {
     "name": "Team meeting",
     "dateCreated": "2022/11/25",
     "eventDate": "2022-11-25",
-    "peopleAmount": 33,
+    "peopleAmount": 4,
     "enrolled": false
   },
   {
     "name": "Parp Lab 5",
     "dateCreated": "2022/11/25",
     "eventDate": "2022-11-25",
-    "peopleAmount": 33,
+    "peopleAmount": 1,
     "enrolled": false
   },
   {
-    "name": "Team meeting",
+    "name": "Weekly meeting",
     "dateCreated": "2022/11/25",
     "eventDate": "2022-11-25",
-    "peopleAmount": 33,
+    "peopleAmount": 0,
     "enrolled": false
   },
   {
     "name": "Daily meeting",
     "dateCreated": "2022/11/25",
     "eventDate": "2022-11-25",
-    "peopleAmount": 33,
+    "peopleAmount": 14,
     "enrolled": false
   }
 ]

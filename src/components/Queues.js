@@ -16,7 +16,7 @@ const Queues = () => {
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
-  const [activeQueue, setActiveQueue] = useState(null);
+  const [search, setSeacrh] = useState("");
   const [addFormData, setAddFormData] = useState({
     name: "",
     eventDate: "",
@@ -50,7 +50,7 @@ const Queues = () => {
       setMessage("Name can't be empty");
     } else if (newQueue.name.length < 3 || newQueue.name.length > 20) {
       setMessage("Name length must be between 3 and 20 symbols");
-    } else if (newQueue.eventDate == null || newQueue.eventDate == "") {
+    } else if (newQueue.eventDate == null || newQueue.eventDate === "") {
       setMessage("Date can't be empty");
     } else if (new Date() >= newQueue.eventDate) {
       setMessage("You can't choose the date in the past");
@@ -75,7 +75,7 @@ const Queues = () => {
       peopleAmount: queue.peopleAmount + 1,
     };
 
-    const index = queues.findIndex((currQueue) => queue.name == currQueue.name);
+    const index = queues.findIndex((currQueue) => queue.name === currQueue.name);
     let newQueues = queues;
     newQueues[index] = newQueue;
     setQueues(newQueues);
@@ -164,6 +164,9 @@ const Queues = () => {
             placeholder="Search"
             className="me-2"
             aria-label="Search"
+            onChange={(e) => {
+              setSeacrh(e.target.value);
+            }}
           />
           <Button
             variant="primary"
@@ -190,24 +193,27 @@ const Queues = () => {
           </thead>
           <tbody>
             {queues.map((queue) => {
-              return (
-                <tr>
-                  <td>{queue.name}</td>
-                  <td>{queue.dateCreated}</td>
-                  <td>{queue.eventDate}</td>
-                  <td>{queue.peopleAmount}</td>
-                  <td>
-                    <Button
-                      variant="primary"
-                      onClick={() => {
-                        handleEnrollClick(queue);
-                      }}
-                    >
-                      Enroll
-                    </Button>
-                  </td>
-                </tr>
-              );
+              if (queue.name.toLocaleLowerCase().indexOf(search.toLocaleLowerCase()) !== -1) {
+                return (
+                  <tr>
+                    <td>{queue.name}</td>
+                    <td>{queue.dateCreated}</td>
+                    <td>{queue.eventDate}</td>
+                    <td>{queue.peopleAmount}</td>
+                    <td>
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          handleEnrollClick(queue);
+                        }}
+                      >
+                        Enroll
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              }
+              return <Fragment />;
             })}
           </tbody>
         </Table>

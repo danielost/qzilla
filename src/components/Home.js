@@ -1,14 +1,8 @@
 import React from "react";
 import {
-  MDBBtn,
   MDBContainer,
   MDBRow,
-  MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBInput,
-  MDBCheckbox,
-  MDBIcon,
+  MDBCol
 } from "mdb-react-ui-kit";
 import Logo from "../imgs/logo.png";
 

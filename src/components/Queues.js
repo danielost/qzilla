@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import {
   Table,
   Modal,
@@ -9,10 +9,10 @@ import {
   Spinner,
   ToastContainer,
 } from "react-bootstrap";
-import data from "../data/queues.json";
+import axios from "axios";
 
 const Queues = () => {
-  const [queues, setQueues] = useState(data);
+  const [queues, setQueues] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
@@ -21,6 +21,20 @@ const Queues = () => {
     name: "",
     eventDate: "",
   });
+
+  useEffect(() => {
+    axios({
+      url: "https://qzilla-api.azurewebsites.net/api/v1/queues",
+      method: "get",
+    })
+      .then((response) => {
+        console.log(response.data);
+        setQueues(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleAddFormChange = (event) => {
     setMessage("");
@@ -55,38 +69,67 @@ const Queues = () => {
     } else if (new Date() >= newQueue.eventDate) {
       setMessage("You can't choose the date in the past");
     } else {
-      const newQueues = [...queues, newQueue];
-      setQueues(newQueues);
-      setShowModal(false);
-      setMessage(
-        <span>
-          Queue <b>{addFormData.name}</b> succesfully created!
-        </span>
-      );
+      axios({
+        url: "https://qzilla-api.azurewebsites.net/api/v1/queues",
+        method: "post",
+        data: {
+          name: addFormData.name,
+          eventDate: addFormData.eventDate,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.error == null) {
+            const newQueues = [...queues, response.data];
+            setQueues(newQueues);
+            setShowModal(false);
+            setMessage(
+              <span>
+                Queue <b>{addFormData.name}</b> succesfully created!
+              </span>
+            );
+          } else {
+            setMessage(response.data.error);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       setShowToast(true);
     }
   };
 
   const handleEnrollClick = (queue) => {
-    const newQueue = {
-      name: queue.name,
-      dateCreated: queue.dateCreated,
-      eventDate: queue.eventDate,
-      peopleAmount: queue.peopleAmount + 1,
-    };
+    axios({
+      url:
+        "https://qzilla-api.azurewebsites.net/api/v1/queues/enroll/" + queue.id,
+      method: "put",
+    })
+      .then((response) => {
+        const newQueue = {
+          id: queue.id,
+          name: queue.name,
+          dateCreated: queue.dateCreated,
+          eventDate: queue.eventDate,
+          peopleAmount: queue.peopleAmount + 1,
+        };
 
-    const index = queues.findIndex(
-      (currQueue) => queue.name === currQueue.name
-    );
-    let newQueues = queues;
-    newQueues[index] = newQueue;
-    setQueues(newQueues);
-    setMessage(
-      <span>
-        Enrolled to queue <b>{queue.name}</b>
-      </span>
-    );
-    setShowToast(true);
+        const index = queues.findIndex(
+          (currQueue) => queue.name === currQueue.name
+        );
+        let newQueues = queues;
+        newQueues[index] = newQueue;
+        setQueues(newQueues);
+        setMessage(
+          <span>
+            Enrolled to queue <b>{queue.name}</b>
+          </span>
+        );
+        setShowToast(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

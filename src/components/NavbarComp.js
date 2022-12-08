@@ -9,16 +9,16 @@ const NavbarComp = () => {
     <Fragment>
       <Navbar bg="light" expand="lg">
         <Container>
-          <Navbar.Brand as={Link} to="/">
+          <Navbar.Brand as={Link} to="/home">
             Qzilla
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="/">
+              <Nav.Link as={Link} to="/home">
                 Home
               </Nav.Link>
-              <Nav.Link as={Link} to="/queues">
+              <Nav.Link as={Link} to="/">
                 Queues
               </Nav.Link>
             </Nav>
@@ -27,8 +27,8 @@ const NavbarComp = () => {
       </Navbar>
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/queues" element={<Queues />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Queues />} />
         <Route
           path="*"
           element={

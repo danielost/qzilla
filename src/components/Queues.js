@@ -24,7 +24,7 @@ const Queues = () => {
 
   useEffect(() => {
     axios({
-      url: "https://qzilla-api.azurewebsites.net/api/v1/queues",
+      url: "https://api-qzilla.azurewebsites.net/api/v1/queues",
       method: "get",
     })
       .then((response) => {
@@ -70,7 +70,7 @@ const Queues = () => {
       setMessage("You can't choose the date in the past");
     } else {
       axios({
-        url: "https://qzilla-api.azurewebsites.net/api/v1/queues",
+        url: "https://api-qzilla.azurewebsites.net/api/v1/queues",
         method: "post",
         data: {
           name: addFormData.name,
@@ -102,7 +102,7 @@ const Queues = () => {
   const handleEnrollClick = (queue) => {
     axios({
       url:
-        "https://qzilla-api.azurewebsites.net/api/v1/queues/enroll/" + queue.id,
+        "https://api-qzilla.azurewebsites.net/api/v1/queues/enroll/" + queue.id,
       method: "put",
     })
       .then((response) => {
